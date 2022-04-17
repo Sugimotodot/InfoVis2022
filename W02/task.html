@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ベクトル計算</title>
+        <script src="vec3.js"></script>
+        <script>
+            function area(){
+                var x0 = document.getElementById("x0").value;
+                var y0 = document.getElementById("y0").value;
+                var z0 = document.getElementById("z0").value;
+                var vec0 = new Vec3(x0, y0, z0);
+
+                var x1 = document.getElementById("x1").value;
+                var y1 = document.getElementById("y1").value;
+                var z1 = document.getElementById("z1").value;
+                var vec1 = new Vec3(x1, y1, z1);
+
+                var x2 = document.getElementById("x2").value;
+                var y2 = document.getElementById("y2").value;
+                var z2 = document.getElementById("z2").value;
+                var vec2 = new Vec3(x2, y2, z2);
+
+                var dis1 = vec0.distance(v1);
+                var dis2 = vec0.distance(v2);
+                var v01 = vec1.sub(vec0);
+                var v02 = vec2.sub(vec0);
+
+                var s = Math.sqrt(dis1*dis1 * dis2*dis2 - (v01.x * v02.x + v01.y * v02.y + v01.z + v02.z)) / 2
+
+                var outAreaElement = document.getElementById("outCalc");
+                outAreaElement.innerHTML = s;
+            }
+        </script>
+    </head>
+    <body>
+        <form>
+            x0=<input type="number" id="x0" value="0"> y0=<input type="number" id="y0" value="0"> z0=<input type="number" id="z0" value="0">
+            <br>
+            x1=<input type="number" id="x1" value="1"> y1=<input type="number" id="y1" value="1"> z1=<input type="number" id="z1" value="1">
+            <br>
+            x2=<input type="number" id="x2" value="2"> y2=<input type="number" id="y2" value="2"> z2=<input type="number" id="z2" value="2">
+            <br>
+            <input type="button" id="calc" value="面積を計算" onClick="area()">
+            <hr>計算結果:
+            <div id="outCalc">実装中...</div>
+        </form>
+    </body>
+</html>
