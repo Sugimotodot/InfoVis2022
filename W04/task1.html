@@ -7,6 +7,7 @@
         <script>
             var svg = d3.select("body").append("svg");
             d3.csv("https://sugimotodot.github.io/InfoVis2022/W04/data.csv",
+            //d3.csv("data.csv",
             function(data){
                 svg.selectAll("circle")
                    .data(data)
@@ -15,6 +16,7 @@
                    .attr("cx", function(d){return d.x;})
                    .attr("cy", function(d){return d.y;})
                    .attr("r", function(d){return d.r})
+                   .style("fill", "red")
             });
         </script>
     </body>
