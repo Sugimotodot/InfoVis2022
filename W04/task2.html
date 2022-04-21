@@ -5,6 +5,7 @@
     <body>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script>
+            var svg = d3.select("body").append("svg");
             var padding = 10;
             var height = 20;
             d3.csv("https://sugimotodot.github.io/InfoVis2022/W04/w04_task2.csv",
@@ -13,10 +14,25 @@
                    .data(data)
                    .enter()
                    .append("rect")
-                   .attr("x", padding)
+                   .attr("x", padding + 50)
                    .attr("y", function(d,i){return padding + i*(height+padding);})
                    .attr("width", function(d){return d.length;})
-                   .attr("height", height);
+                   .attr("height", height)
+                   .style("fill", "red")
+                   .style("opacity", "0.5");
+            });
+            d3.csv("https://sugimotodot.github.io/InfoVis2022/W04/w04_task2.csv",
+            function(data){
+                svg.selectAll("text")
+                   .data(data)
+                   .enter()
+                   .append("text")
+                   .attr("x", padding)
+                   .attr("y", function(d,i){return padding + 20 + i*(height+padding);})
+                   .attr("font-family", "sans-serif")
+                   .attr("font-size", "15px")
+                   .attr("fill", "red")
+                   .text(function(d){return d.name})
             });
         </script>
     </body>
