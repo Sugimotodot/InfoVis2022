@@ -66,11 +66,11 @@ class ScatterPlot {
 
         const xmin = d3.min( self.data, d => d.x );
         const xmax = d3.max( self.data, d => d.x );
-        self.xscale.domain( [xmin, xmax] );
+        self.xscale.domain( [xmin-10, xmax+10] );
 
         const ymin = d3.min( self.data, d => d.y );
         const ymax = d3.max( self.data, d => d.y );
-        self.yscale.domain( [ymin, ymax] );
+        self.yscale.domain( [ymin-10, ymax+10] );
 
         self.render();
     }
@@ -86,15 +86,15 @@ class ScatterPlot {
             .attr("cy", d => self.yscale( d.y ) )
             .attr("r", d => d.r );
 
-        self.chart.selectAll("text")
-            .data(self.data)
-            .enter()
-            .append("text")
-            .attr("x", self.config.width/2)
-            .attr("y", self.config.height/2)
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "15px")
-            .test("axis");
+        //self.chart.selectAll("text")
+        //    .data(self.data)
+        //    .enter()
+        //    .append("text")
+        //    .attr("x", self.config.width/2)
+        //    .attr("y", self.config.height/2)
+        //    .attr("font-family", "sans-serif")
+        //    .attr("font-size", "15px")
+        //    .test("axis");
 
         self.xaxis_group
             .call( self.xaxis );
