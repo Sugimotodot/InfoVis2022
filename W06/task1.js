@@ -43,10 +43,13 @@ class ScatterPlot {
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
         self.xscale = d3.scaleLinear()
+            .domain( [0, d3.max(data, d => d.value)])
             .range( [0, self.inner_width] );
 
-        self.yscale = d3.scaleLinear()
-            .range( [0, self.inner_height] );
+        self.yscale = d3.scaleBand()
+            .domain( data.map( d => d.label ))
+            .range( [0, self.inner_height] )
+            .paddingInner(0.1);
 
         self.xaxis = d3.axisBottom( self.xscale )
             .ticks(6);
