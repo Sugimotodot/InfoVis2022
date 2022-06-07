@@ -18,6 +18,8 @@ d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/test1_rev.csv")
         d3.select('#reverse').on('click', d => { bar_chart.sort('reverse'); bar_chart.update(); });
         d3.select('#descend').on('click', d => { bar_chart.sort('descend'); bar_chart.update(); });
         d3.select('#ascend').on('click', d => { bar_chart.sort('ascend'); bar_chart.update(); });
+
+        d3.select('#pup').on('onchange', d => { bar_chart.update(); });
     })
     .catch( error => {
         console.log( error );
@@ -48,12 +50,6 @@ class BarChart {
 
         self.chart = self.svg.append('g')
             .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top})`);
-
-        var imgList = ['fantasy_china_keiten'];
-
-        var imgArea = d3.select(self.config.parent)
-                        .append('image')
-                        .attr('id', 'image');
 
         self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
@@ -104,10 +100,14 @@ class BarChart {
 
         self.color_palette = d3.scaleOrdinal(d3.schemeSet1);
 
-        var char = self.chart.append("text")
-                             .attr("id", "char")
-                             .attr("transform", "translate(0,0)")
-                             .text( "TEXT" );
+        self.chart.append("text")
+                  .attr("id", "char")
+                  .attr("transform", "translate(0,0)")
+                  .text( "" );
+
+        d3.select(self.config.parent)
+          .append('image')
+          .attr('id', 'image');
     }
 
     update() {
@@ -115,7 +115,7 @@ class BarChart {
 
         const space = 10;
         const xmin = 0;
-        const xmax = d3.max(self.data, d => d.Education) + space;
+        const xmax = d3.max(self.data, d => d.Sums) + space;
         self.xscale.domain([xmin, xmax*1.2]);
 
         const items = self.data.map(d => d.Country);
@@ -132,12 +132,22 @@ class BarChart {
             .join("rect")
             .on("mouseover", self.onMouseOver)
             .on("mouseout", self.onMouseOut)
+            .on('mousemove', (e) => {
+                const padding = 10;
+                d3.select('#tooltip')
+                  .style('left', (e.pageX + padding) + 'px')
+                  .style('top', (e.pageY + padding) + 'px');
+            })
+            .on('mouseleave', () => {
+                d3.select('#tooltip')
+                  .style('opacity', 0);
+            })
             .transition().duration(self.config.duration)
             .attr("x", 0)
             .attr("y", d => self.yscale(d.Country))
-            .attr("width", d => self.xscale(d.Education))
+            .attr("width", d => self.xscale(d.Sums))
             .attr("height", self.yscale.bandwidth())
-            .attr("value", d => d.Education)
+            .attr("value", d => d.Sums)
             .attr("country", d => d.Country)
             .attr("area", d => d.Area)
             .attr("color", d => self.color_palette(d.Area))
@@ -157,10 +167,10 @@ class BarChart {
             self.data.reverse();
             break;
         case 'descend':
-            self.data.sort( (a,b) => b.Education - a.Education );
+            self.data.sort( (a,b) => b.Sums - a.Sums );
             break;
         case 'ascend':
-            self.data.sort( (a,b) => a.Education - b.Education );
+            self.data.sort( (a,b) => a.Sums - b.Sums );
             break;
         }
     }
@@ -181,12 +191,18 @@ class BarChart {
           .attr("stroke", cor.attr("color"))
           .text( cor.attr("value") );
 
+        var imgList = ['fantasy_china_keiten'];
+
         d3.selectAll("#image")
           .attr('width', 50)
           .attr('height', 50)
-          .attr("x", +cor.attr("width") + 180)
-          .attr("y", +cor.attr("y") + 5)
-          .attr('xlink:href', 'fantasy_china_keiten.png');
+          .attr("x", +cor.attr("width") + 190)
+          .attr("y", +cor.attr("y") + 8)
+          .attr('xlink:href', cor.attr("country") + '.gif');
+
+        d3.select('#tooltip')
+          .style('opacity', 1)
+          .html(`<div class="tooltip-label">${cor.attr("country")}</div>`);
     }
 
     onMouseOut(d, i) {

@@ -1,8 +1,39 @@
 <html>
     <head>
         <title>0531Barchart</title>
+        <style>
+            body {
+                font-family: system-ui;
+            }
+            #tooltip {
+                position: absolute;
+                opacity: 0;
+                background: #fff;
+                border: 1px solid #ddd;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 2px 8px;
+            }
+            .tooltip-label {
+                font-weight: 500;
+                font-size: 11px;
+                color: #888;
+            }
+        </style>
     </head>
     <body>
+        <div id="select">
+            <div>Purpose</div>
+            <select id="pup">
+            <option id="dip">Diplomacy</option>
+            <option id="2">Public</option>
+            <option id="3" selected>Education</option>
+            <option id="4">Art</option>
+            <option id="5">Religion</option>
+            <option id="6">Press</option>
+            </select>
+        </div>
+        <div id="tooltip"></div>
         <svg id="drawing_region"></svg>
         <script src="https://d3js.org/d3.v6.min.js"></script>
         <script src="0531main.js"></script>
