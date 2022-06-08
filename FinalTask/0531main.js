@@ -7,7 +7,7 @@ d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/test1_rev.csv")
             width: 1024,
             height: 768,
             margin: {top:25, right:10, bottom:50, left:150},
-            title: 'Nationality of the residents in Japan',
+            title: 'Nationality of New tourlists in Japan',
             xlabel: 'People',
             ylabel: 'Country'
         };
@@ -108,6 +108,11 @@ class BarChart {
         d3.select(self.config.parent)
           .append('image')
           .attr('id', 'image');
+
+        d3.select(self.config.parent)
+          .append('g')
+          .attr('id', 'pie')
+          .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top})`);
     }
 
     update() {
@@ -150,6 +155,7 @@ class BarChart {
             .attr("value", d => d.Sums)
             .attr("country", d => d.Country)
             .attr("area", d => d.Area)
+            .attr("abb", d => d.Abb)
             .attr("color", d => self.color_palette(d.Area))
             .attr("fill", d => self.color_palette(d.Area));
 
@@ -196,13 +202,17 @@ class BarChart {
         d3.selectAll("#image")
           .attr('width', 50)
           .attr('height', 50)
-          .attr("x", +cor.attr("width") + 190)
+          .attr("x", +cor.attr("width") + 200)
           .attr("y", +cor.attr("y") + 8)
-          .attr('xlink:href', cor.attr("country") + '.gif');
+          .attr('xlink:href', 'https://www.asahi-net.or.jp/~yq3t-hruc/img/' + cor.attr("abb") + '.gif');
 
         d3.select('#tooltip')
           .style('opacity', 1)
           .html(`<div class="tooltip-label">${cor.attr("country")}</div>`);
+
+        d3.select('#pie')
+          .attr('width', 80)
+          .attr('height', 80)
     }
 
     onMouseOut(d, i) {
