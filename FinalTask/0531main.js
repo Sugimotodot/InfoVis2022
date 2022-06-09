@@ -210,9 +210,6 @@ class BarChart {
           .style('opacity', 1)
           .html(`<div class="tooltip-label">${cor.attr("country")}</div>`);
 
-        d3.select('#pie')
-          .attr('width', 80)
-          .attr('height', 80)
     }
 
     onMouseOut(d, i) {

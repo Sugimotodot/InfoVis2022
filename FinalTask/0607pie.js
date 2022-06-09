@@ -1,7 +1,6 @@
-d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/test1_rev.csv")
+d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/pie1_VN.csv")
     .then( data => {
-        data.forEach( d => { d.Sums = +d.Sums; d.Diplomacy = +d.Diplomacy; d.Public = +d.Public;
-            d.Education = +d.Education; d.Art = +d.Art; d.Religion = +d.Religion; d.Press = +d.Press; });
+        data.forEach( d => { d.value = +d.value; });
 
         var config = {
             parent: '#drawing_region',
@@ -70,7 +69,7 @@ class PieChart {
         let self = this;
 
         self.pie = d3.pie()
-            .value( d => d.Sums );
+            .value( d => d.value );
 
         self.render();
     }
@@ -83,9 +82,7 @@ class PieChart {
             .enter()
             .append('path')
             .attr('d', self.arc)
-            .attr("fill", (d, i) => {
-                return self.color_palette(i);
-            })
+            .attr('fill', d => self.color_palette(d.index))
             .attr('stroke', 'white')
             .style('stroke-width', '2px');
 
@@ -97,6 +94,6 @@ class PieChart {
             .attr('transform', d => `translate(${self.arc.centroid(d)})`)
             .style('font-size', '15px')
             .attr('text-anchor', 'middle')
-            .text(d => d.data.Country);
+            .text(d => d.data.label);
     }
 }
