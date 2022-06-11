@@ -1,4 +1,4 @@
-d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/pie1_VN.csv")
+d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/pie_CN.csv")
     .then( data => {
         data.forEach( d => { d.value = +d.value; });
 
@@ -7,7 +7,7 @@ d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/pie1_VN.csv")
             width: 256,
             height: 256,
             margin: {top:35, right:10, bottom:15, left:10},
-            title: 'Sample Data'
+            title: 'Residents (Vietnam)'
         };
 
         const pie_chart = new PieChart( config, data );

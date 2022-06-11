@@ -1,15 +1,13 @@
-d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/test1_rev.csv")
+d3.csv("https://sugimotodot.github.io/InfoVis2022/FinalTask/pie_VN.csv")
     .then( data => {
-        data.forEach( d => { d.Education = +d.Education; d.Area = +d.Area; });
-
-        console.log(data);
+        data.forEach( d => { d.value = +d.value; });
 
         var config = {
             parent: '#drawing_region',
-            width: 512,
-            height: 512,
+            width: 256,
+            height: 256,
             margin: {top:35, right:10, bottom:15, left:10},
-            title: 'Sample Data'
+            title: 'Residents (Vietnam)'
         };
 
         const pie_chart = new PieChart( config, data );
@@ -71,7 +69,7 @@ class PieChart {
         let self = this;
 
         self.pie = d3.pie()
-            .value( d => d.Education );
+            .value( d => d.value );
 
         self.render();
     }
@@ -84,7 +82,7 @@ class PieChart {
             .enter()
             .append('path')
             .attr('d', self.arc)
-            .attr('fill', d => self.color_palette(d.data.Area))
+            .attr('fill', d => self.color_palette(d.index))
             .attr('stroke', 'white')
             .style('stroke-width', '2px');
 
@@ -96,6 +94,6 @@ class PieChart {
             .attr('transform', d => `translate(${self.arc.centroid(d)})`)
             .style('font-size', '15px')
             .attr('text-anchor', 'middle')
-            .text(d => d.data.Country);
+            .text(d => d.data.label);
     }
 }
